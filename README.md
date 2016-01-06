@@ -1,6 +1,6 @@
 # Gray Displacer
 
-![Gray Displacer](https://c2.staticflickr.com/2/1470/23836884549_e3fb895959_z.jpg)
+<img width="512" height="546" src="https://c2.staticflickr.com/2/1470/23836884549_e3fb895959_z.jpg">
 
 I'm playing around with various perceptual effects that come from using the old-fashioned 2px x 2px black and white repeating background, which our eyes percieve to be gray (think original Mac desktop background).
 
