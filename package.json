@@ -5,7 +5,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "budo index.js --live -- -t glslify -t deamdify"
+    "start": "budo index.js --live -- -t glslify"
   },
   "author": {
     "name": "Andy Dayton",
@@ -31,5 +31,5 @@
     "type": "git",
     "url": "git://github.com/andyinabox/gray-displace.git"
   },
-  "homepage": "https://github.com/andyinabox/gray-displace",
+  "homepage": "https://github.com/andyinabox/gray-displace"
 }
