@@ -1,11 +1,11 @@
 {
   "name": "gray-displace",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "budo index.js --live --open -- -t glslify -t deamdify"
+    "start": "budo index.js --live -- -t glslify -t deamdify"
   },
   "author": {
     "name": "Andy Dayton",
@@ -31,11 +31,5 @@
     "type": "git",
     "url": "git://github.com/andyinabox/gray-displace.git"
   },
-  "keywords": [
-    "ecosystem:stackgl"
-  ],
   "homepage": "https://github.com/andyinabox/gray-displace",
-  "bugs": {
-    "url": "https://github.com/andyinabox/gray-displace/issues"
-  }
 }
