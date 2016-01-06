@@ -6,6 +6,7 @@ var fillScreen = require('a-big-triangle');
 var glslify = require('glslify');
 var videoGrabber = require('./lib/videoGrabber.js');
 var mouseChange = require('mouse-change');
+var dat = require('exdat');
 
 var video = videoGrabber(640, 480);
 
@@ -15,6 +16,11 @@ var mainShader
 	, videoTexture
 	, grayFbo
 	, videoFbo;
+
+var params = {
+	displacement: 0.5
+	, videoMix: 0.5
+};
 
 var iMouse = [0.0, 0.0];
 
@@ -34,6 +40,11 @@ shell.on('gl-init', function() {
 		iMouse[0] = x/gl.drawingBufferWidth * 1.0;
 		iMouse[1] = y/gl.drawingBufferHeight * 1.0;
 	});
+
+	var gui = new dat.GUI();
+	gui.add(params, 'displacement', 0.0, 1.0);
+	gui.add(params, 'videoMix', 0.0, 1.0);
+
 });
 
 shell.on('tick', function() {
@@ -74,6 +85,8 @@ shell.on('gl-render', function(t) {
 		mainShader.uniforms.iResolution = [gl.drawingBufferWidth, gl.drawingBufferHeight];
 		// console.log(iMouse);
 		mainShader.uniforms.iMouse = iMouse;
+		mainShader.uniforms.displacement = params.displacement;
+		mainShader.uniforms.videoMix = params.videoMix;
 		mainShader.uniforms.grayTexture = grayFbo.color[0].bind(1);
 		mainShader.uniforms.videoTexture = videoFbo.color[0].bind(2);
 
