@@ -19,7 +19,8 @@
     "glsl-checker": "~1.0.1",
     "gl-fbo": "~2.0.5",
     "gl-texture2d": "~2.0.10",
-    "getusermedia": "~1.3.5"
+    "getusermedia": "~1.3.5",
+    "mouse-change": "~1.2.1"
   },
   "devDependencies": {
     "glslify": "~5.0.0",

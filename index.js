@@ -5,6 +5,7 @@ var glTexture2d = require('gl-texture2d');
 var fillScreen = require('a-big-triangle');
 var glslify = require('glslify');
 var videoGrabber = require('./lib/videoGrabber.js');
+var mouseChange = require('mouse-change');
 
 var video = videoGrabber(640, 480);
 
@@ -15,6 +16,7 @@ var mainShader
 	, grayFbo
 	, videoFbo;
 
+var iMouse = [0.0, 0.0];
 
 shell.on('gl-init', function() {
 	var gl = shell.gl;
@@ -27,12 +29,15 @@ shell.on('gl-init', function() {
 	// setup fbos
 	grayFbo = glFbo(gl, [gl.drawingBufferWidth, gl.drawingBufferHeight]);
 	videoFbo = glFbo(gl, [gl.drawingBufferWidth, gl.drawingBufferHeight]);
+
+	mouseChange(function(btn, x, y) {
+		iMouse[0] = x/gl.drawingBufferWidth * 1.0;
+		iMouse[1] = y/gl.drawingBufferHeight * 1.0;
+	});
 });
 
 shell.on('tick', function() {
 	var gl = shell.gl;
-
-	console.log('iResolution', gl.drawingBufferWidth, gl.drawingBufferHeight);
 
 	// is there video ready?
 	if(video.readyState === video.HAVE_ENOUGH_DATA) {
@@ -62,9 +67,13 @@ shell.on('tick', function() {
 shell.on('gl-render', function(t) {
 	var gl = shell.gl;
 
+	// console.log('videoMix', videoMix);
+
 	// bind shader
 	mainShader.bind();
 		mainShader.uniforms.iResolution = [gl.drawingBufferWidth, gl.drawingBufferHeight];
+		// console.log(iMouse);
+		mainShader.uniforms.iMouse = iMouse;
 		mainShader.uniforms.grayTexture = grayFbo.color[0].bind(1);
 		mainShader.uniforms.videoTexture = videoFbo.color[0].bind(2);
 
