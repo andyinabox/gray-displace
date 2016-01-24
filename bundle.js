@@ -5,11 +5,11 @@ var glFbo = require('gl-fbo');
 var glTexture2d = require('gl-texture2d');
 var fillScreen = require('a-big-triangle');
 
-var videoGrabber = require('./lib/videoGrabber.js');
+var webcamGrabber = require('webcam-grabber');
 var mouseChange = require('mouse-change');
 var dat = require('exdat');
 
-var video = videoGrabber(640, 480);
+var video = webcamGrabber(640, 480);
 
 var mainShader
 	, grayShader
@@ -98,37 +98,7 @@ shell.on('gl-render', function(t) {
 shell.on("gl-error", function(e) {
   throw new Error("WebGL not supported :(")
 });
-},{"./lib/videoGrabber.js":2,"a-big-triangle":20,"exdat":42,"gl-fbo":45,"gl-now":46,"gl-shader":59,"gl-texture2d":93,"mouse-change":94}],2:[function(require,module,exports){
-var getUserMedia = require('getusermedia');
-
-function videoGrabber(width, height) {
-	var v = document.createElement('video');
-	var constraints = {
-		audio: false
-		, video: {
-			width: { min: width, ideal: width }
-			, height: { min: height, ideal: height}
-		}
-	}
-
-	v.width = width;
-	v.height = height;
-
-
-	getUserMedia(constraints, function(err, stream) {
-		if(err) {
-			throw new Error(err);
-		}
-
-		// http://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm
-		v.src = window.URL.createObjectURL(stream);
-	});
-
-	return v;
-}
-
-module.exports = videoGrabber;
-},{"getusermedia":43}],3:[function(require,module,exports){
+},{"a-big-triangle":19,"exdat":41,"gl-fbo":44,"gl-now":45,"gl-shader":58,"gl-texture2d":92,"mouse-change":93,"webcam-grabber":95}],2:[function(require,module,exports){
 "use strict"
 
 var pool = require("typedarray-pool")
@@ -282,7 +252,7 @@ function createBuffer(gl, data, type, usage) {
 
 module.exports = createBuffer
 
-},{"ndarray":9,"ndarray-ops":4,"typedarray-pool":14}],4:[function(require,module,exports){
+},{"ndarray":8,"ndarray-ops":3,"typedarray-pool":13}],3:[function(require,module,exports){
 "use strict"
 
 var compile = require("cwise-compiler")
@@ -745,7 +715,7 @@ exports.equals = compile({
 
 
 
-},{"cwise-compiler":5}],5:[function(require,module,exports){
+},{"cwise-compiler":4}],4:[function(require,module,exports){
 "use strict"
 
 var createThunk = require("./lib/thunk.js")
@@ -856,7 +826,7 @@ function compileCwise(user_args) {
 
 module.exports = compileCwise
 
-},{"./lib/thunk.js":7}],6:[function(require,module,exports){
+},{"./lib/thunk.js":6}],5:[function(require,module,exports){
 "use strict"
 
 var uniq = require("uniq")
@@ -1212,7 +1182,7 @@ function generateCWiseOp(proc, typesig) {
 }
 module.exports = generateCWiseOp
 
-},{"uniq":8}],7:[function(require,module,exports){
+},{"uniq":7}],6:[function(require,module,exports){
 "use strict"
 
 // The function below is called when constructing a cwise function object, and does the following:
@@ -1300,7 +1270,7 @@ function createThunk(proc) {
 
 module.exports = createThunk
 
-},{"./compile.js":6}],8:[function(require,module,exports){
+},{"./compile.js":5}],7:[function(require,module,exports){
 "use strict"
 
 function unique_pred(list, compare) {
@@ -1359,7 +1329,7 @@ function unique(list, compare, sorted) {
 
 module.exports = unique
 
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 var iota = require("iota-array")
 var isBuffer = require("is-buffer")
 
@@ -1704,7 +1674,7 @@ function wrappedNDArrayCtor(data, shape, stride, offset) {
 
 module.exports = wrappedNDArrayCtor
 
-},{"iota-array":10,"is-buffer":11}],10:[function(require,module,exports){
+},{"iota-array":9,"is-buffer":10}],9:[function(require,module,exports){
 "use strict"
 
 function iota(n) {
@@ -1716,7 +1686,7 @@ function iota(n) {
 }
 
 module.exports = iota
-},{}],11:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /**
  * Determine if an object is Buffer
  *
@@ -1735,7 +1705,7 @@ module.exports = function (obj) {
     ))
 }
 
-},{}],12:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /**
  * Bit twiddling hacks for JavaScript.
  *
@@ -1941,7 +1911,7 @@ exports.nextCombination = function(v) {
 }
 
 
-},{}],13:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 "use strict"
 
 function dupe_array(count, value, i) {
@@ -1991,7 +1961,7 @@ function dupe(count, value) {
 }
 
 module.exports = dupe
-},{}],14:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 (function (global,Buffer){
 'use strict'
 
@@ -2208,7 +2178,7 @@ exports.clearCache = function clearCache() {
   }
 }
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer)
-},{"bit-twiddle":12,"buffer":96,"dup":13}],15:[function(require,module,exports){
+},{"bit-twiddle":11,"buffer":97,"dup":12}],14:[function(require,module,exports){
 "use strict"
 
 function doBind(gl, elements, attributes) {
@@ -2263,7 +2233,7 @@ function doBind(gl, elements, attributes) {
 }
 
 module.exports = doBind
-},{}],16:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 "use strict"
 
 var bindAttribs = require("./do-bind.js")
@@ -2303,7 +2273,7 @@ function createVAOEmulated(gl) {
 }
 
 module.exports = createVAOEmulated
-},{"./do-bind.js":15}],17:[function(require,module,exports){
+},{"./do-bind.js":14}],16:[function(require,module,exports){
 "use strict"
 
 var bindAttribs = require("./do-bind.js")
@@ -2391,7 +2361,7 @@ function createVAONative(gl, ext) {
 }
 
 module.exports = createVAONative
-},{"./do-bind.js":15}],18:[function(require,module,exports){
+},{"./do-bind.js":14}],17:[function(require,module,exports){
 "use strict"
 
 var createVAONative = require("./lib/vao-native.js")
@@ -2411,7 +2381,7 @@ function createVAO(gl, attributes, elements, elementsType) {
 
 module.exports = createVAO
 
-},{"./lib/vao-emulated.js":16,"./lib/vao-native.js":17}],19:[function(require,module,exports){
+},{"./lib/vao-emulated.js":15,"./lib/vao-native.js":16}],18:[function(require,module,exports){
 // Copyright (C) 2011 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -3098,7 +3068,7 @@ module.exports = createVAO
   }
 })();
 
-},{}],20:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict'
 
 var weakMap      = typeof WeakMap === 'undefined' ? require('weak-map') : WeakMap
@@ -3128,7 +3098,7 @@ function createABigTriangle(gl) {
 
 module.exports = createABigTriangle
 
-},{"gl-buffer":3,"gl-vao":18,"weak-map":19}],21:[function(require,module,exports){
+},{"gl-buffer":2,"gl-vao":17,"weak-map":18}],20:[function(require,module,exports){
 /**
  * dat-gui JavaScript Controller Library
  * http://code.google.com/p/dat-gui
@@ -3311,7 +3281,7 @@ function recalculateHSV(color) {
 
 }
 
-},{"../utils/common.js":38,"./interpret.js":22,"./math.js":23,"./toString.js":24}],22:[function(require,module,exports){
+},{"../utils/common.js":37,"./interpret.js":21,"./math.js":22,"./toString.js":23}],21:[function(require,module,exports){
 /**
  * dat-gui JavaScript Controller Library
  * http://code.google.com/p/dat-gui
@@ -3654,7 +3624,7 @@ function createInterpert() {
 
 }
 
-},{"../utils/common.js":38,"./toString.js":24}],23:[function(require,module,exports){
+},{"../utils/common.js":37,"./toString.js":23}],22:[function(require,module,exports){
 /**
  * dat-gui JavaScript Controller Library
  * http://code.google.com/p/dat-gui
@@ -3755,7 +3725,7 @@ function math() {
   };
 }
 
-},{}],24:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /**
  * dat-gui JavaScript Controller Library
  * http://code.google.com/p/dat-gui
@@ -3792,7 +3762,7 @@ function toString(color) {
 
 }
 
-},{"../utils/common.js":38}],25:[function(require,module,exports){
+},{"../utils/common.js":37}],24:[function(require,module,exports){
 /**
  * dat-gui JavaScript Controller Library
  * http://code.google.com/p/dat-gui
@@ -3876,7 +3846,7 @@ common.extend(
   }
 );
 
-},{"../dom/dom.js":36,"../utils/common.js":38,"./Controller.js":27}],26:[function(require,module,exports){
+},{"../dom/dom.js":35,"../utils/common.js":37,"./Controller.js":26}],25:[function(require,module,exports){
 /**
  * dat-gui JavaScript Controller Library
  * http://code.google.com/p/dat-gui
@@ -4197,7 +4167,7 @@ function hueGradient(elem) {
   elem.style.cssText += 'background: linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);'
 }
 
-},{"../color/Color.js":21,"../color/interpret.js":22,"../dom/dom.js":36,"../utils/common.js":38,"./Controller.js":27}],27:[function(require,module,exports){
+},{"../color/Color.js":20,"../color/interpret.js":21,"../dom/dom.js":35,"../utils/common.js":37,"./Controller.js":26}],26:[function(require,module,exports){
 /**
  * dat-gui JavaScript Controller Library
  * http://code.google.com/p/dat-gui
@@ -4338,7 +4308,7 @@ common.extend(
 );
 
 
-},{"../utils/common.js":38,"../utils/escapeHtml.js":40}],28:[function(require,module,exports){
+},{"../utils/common.js":37,"../utils/escapeHtml.js":39}],27:[function(require,module,exports){
 /**
  * dat-gui JavaScript Controller Library
  * http://code.google.com/p/dat-gui
@@ -4408,7 +4378,7 @@ common.extend(
 
 );
 
-},{"../dom/dom.js":36,"../utils/common.js":38,"./Controller.js":27}],29:[function(require,module,exports){
+},{"../dom/dom.js":35,"../utils/common.js":37,"./Controller.js":26}],28:[function(require,module,exports){
 /**
  * dat-gui JavaScript Controller Library
  * http://code.google.com/p/dat-gui
@@ -4550,7 +4520,7 @@ function numDecimals(x) {
   }
 }
 
-},{"../utils/common.js":38,"./Controller.js":27}],30:[function(require,module,exports){
+},{"../utils/common.js":37,"./Controller.js":26}],29:[function(require,module,exports){
 /**
  * dat-gui JavaScript Controller Library
  * http://code.google.com/p/dat-gui
@@ -4681,7 +4651,7 @@ function roundToDecimal(value, decimals) {
   return Math.round(value * tenTo) / tenTo;
 }
 
-},{"../dom/dom.js":36,"../utils/common.js":38,"./NumberController.js":29}],31:[function(require,module,exports){
+},{"../dom/dom.js":35,"../utils/common.js":37,"./NumberController.js":28}],30:[function(require,module,exports){
 /**
  * dat-gui JavaScript Controller Library
  * http://code.google.com/p/dat-gui
@@ -4811,7 +4781,7 @@ function map(v, i1, i2, o1, o2) {
   return o1 + (o2 - o1) * ((v - i1) / (i2 - i1));
 }
 
-},{"../dom/dom.js":36,"../utils/common.js":38,"../utils/css.js":39,"./NumberController.js":29}],32:[function(require,module,exports){
+},{"../dom/dom.js":35,"../utils/common.js":37,"../utils/css.js":38,"./NumberController.js":28}],31:[function(require,module,exports){
 /**
  * dat-gui JavaScript Controller Library
  * http://code.google.com/p/dat-gui
@@ -4911,7 +4881,7 @@ common.extend(
 
 );
 
-},{"../dom/dom.js":36,"../utils/common.js":38,"./Controller.js":27}],33:[function(require,module,exports){
+},{"../dom/dom.js":35,"../utils/common.js":37,"./Controller.js":26}],32:[function(require,module,exports){
 /**
  * dat-gui JavaScript Controller Library
  * http://code.google.com/p/dat-gui
@@ -4998,7 +4968,7 @@ common.extend(
 
 );
 
-},{"../dom/dom.js":36,"../utils/common.js":38,"./Controller.js":27}],34:[function(require,module,exports){
+},{"../dom/dom.js":35,"../utils/common.js":37,"./Controller.js":26}],33:[function(require,module,exports){
 /**
  * dat-gui JavaScript Controller Library
  * http://code.google.com/p/dat-gui
@@ -5064,7 +5034,7 @@ function factory(object, property) {
 
 }
 
-},{"../utils/common.js":38,"./BooleanController.js":25,"./FunctionController.js":28,"./NumberControllerBox.js":30,"./NumberControllerSlider.js":31,"./OptionController.js":32,"./StringController.js":33}],35:[function(require,module,exports){
+},{"../utils/common.js":37,"./BooleanController.js":24,"./FunctionController.js":27,"./NumberControllerBox.js":29,"./NumberControllerSlider.js":30,"./OptionController.js":31,"./StringController.js":32}],34:[function(require,module,exports){
 /**
  * dat-gui JavaScript Controller Library
  * http://code.google.com/p/dat-gui
@@ -5178,7 +5148,7 @@ function lockScroll(e) {
   console.log(e);
 }
 
-},{"../utils/common.js":38,"./dom.js":36}],36:[function(require,module,exports){
+},{"../utils/common.js":37,"./dom.js":35}],35:[function(require,module,exports){
 /**
  * dat-gui JavaScript Controller Library
  * http://code.google.com/p/dat-gui
@@ -5465,7 +5435,7 @@ var dom = {
 
 module.exports = dom;
 
-},{"../utils/common.js":38}],37:[function(require,module,exports){
+},{"../utils/common.js":37}],36:[function(require,module,exports){
 /**
  * dat-gui JavaScript Controller Library
  * http://code.google.com/p/dat-gui
@@ -6867,7 +6837,7 @@ function createGUI() {
   return GUI;
 }
 
-},{"../controllers/BooleanController.js":25,"../controllers/ColorController.js":26,"../controllers/Controller.js":27,"../controllers/FunctionController.js":28,"../controllers/NumberControllerBox.js":30,"../controllers/NumberControllerSlider.js":31,"../controllers/factory.js":34,"../dom/CenteredDiv.js":35,"../dom/dom.js":36,"../utils/common.js":38,"../utils/css.js":39,"../utils/requestAnimationFrame.js":41}],38:[function(require,module,exports){
+},{"../controllers/BooleanController.js":24,"../controllers/ColorController.js":25,"../controllers/Controller.js":26,"../controllers/FunctionController.js":27,"../controllers/NumberControllerBox.js":29,"../controllers/NumberControllerSlider.js":30,"../controllers/factory.js":33,"../dom/CenteredDiv.js":34,"../dom/dom.js":35,"../utils/common.js":37,"../utils/css.js":38,"../utils/requestAnimationFrame.js":40}],37:[function(require,module,exports){
 /**
  * dat-gui JavaScript Controller Library
  * http://code.google.com/p/dat-gui
@@ -7009,7 +6979,7 @@ function common() {
   };
 }
 
-},{}],39:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 /**
  * dat-gui JavaScript Controller Library
  * http://code.google.com/p/dat-gui
@@ -7044,7 +7014,7 @@ function css() {
   };
 }
 
-},{}],40:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 module.exports = escape;
 
 var entityMap = {
@@ -7062,7 +7032,7 @@ function escape(string) {
   });
 }
 
-},{}],41:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 /**
  * dat-gui JavaScript Controller Library
  * http://code.google.com/p/dat-gui
@@ -7095,7 +7065,7 @@ function raf() {
       };
 }
 
-},{}],42:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 /** @license
  * dat-gui JavaScript Controller Library
  * http://code.google.com/p/dat-gui
@@ -7135,7 +7105,7 @@ module.exports = {
   GUI: require('./dat/gui/GUI.js')
 };
 
-},{"./dat/color/Color.js":21,"./dat/color/interpret.js":22,"./dat/color/math.js":23,"./dat/controllers/BooleanController.js":25,"./dat/controllers/ColorController.js":26,"./dat/controllers/Controller.js":27,"./dat/controllers/FunctionController.js":28,"./dat/controllers/NumberController.js":29,"./dat/controllers/NumberControllerBox.js":30,"./dat/controllers/NumberControllerSlider.js":31,"./dat/controllers/OptionController.js":32,"./dat/controllers/StringController.js":33,"./dat/dom/dom.js":36,"./dat/gui/GUI.js":37}],43:[function(require,module,exports){
+},{"./dat/color/Color.js":20,"./dat/color/interpret.js":21,"./dat/color/math.js":22,"./dat/controllers/BooleanController.js":24,"./dat/controllers/ColorController.js":25,"./dat/controllers/Controller.js":26,"./dat/controllers/FunctionController.js":27,"./dat/controllers/NumberController.js":28,"./dat/controllers/NumberControllerBox.js":29,"./dat/controllers/NumberControllerSlider.js":30,"./dat/controllers/OptionController.js":31,"./dat/controllers/StringController.js":32,"./dat/dom/dom.js":35,"./dat/gui/GUI.js":36}],42:[function(require,module,exports){
 // getUserMedia helper by @HenrikJoreteg
 var adapter = require('webrtc-adapter-test');
 
@@ -7216,7 +7186,7 @@ module.exports = function (constraints, cb) {
     });
 };
 
-},{"webrtc-adapter-test":44}],44:[function(require,module,exports){
+},{"webrtc-adapter-test":43}],43:[function(require,module,exports){
 /*
  *  Copyright (c) 2014 The WebRTC project authors. All Rights Reserved.
  *
@@ -7766,7 +7736,7 @@ if (typeof module !== 'undefined') {
   });
 }
 
-},{}],45:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 'use strict'
 
 var createTexture = require('gl-texture2d')
@@ -8233,7 +8203,7 @@ function createFBO(gl, width, height, options) {
     WEBGL_draw_buffers)
 }
 
-},{"gl-texture2d":93}],46:[function(require,module,exports){
+},{"gl-texture2d":92}],45:[function(require,module,exports){
 "use strict"
 
 var makeGameShell = require("game-shell")
@@ -8376,7 +8346,7 @@ function createGLShell(options) {
 }
 
 module.exports = createGLShell
-},{"game-shell":56,"webglew":58}],47:[function(require,module,exports){
+},{"game-shell":55,"webglew":57}],46:[function(require,module,exports){
 if(typeof window.performance === "object") {
   if(window.performance.now) {
     module.exports = function() { return window.performance.now() }
@@ -8389,7 +8359,7 @@ if(typeof window.performance === "object") {
   module.exports = function() { return (new Date()).getTime() }
 }
 
-},{}],48:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 //Adapted from here: https://developer.mozilla.org/en-US/docs/Web/Reference/Events/wheel?redirectlocale=en-US&redirectslug=DOM%2FMozilla_event_reference%2Fwheel
 
 var prefix = "", _addEventListener, onwheel, support;
@@ -8449,7 +8419,7 @@ module.exports = function( elem, callback, useCapture ) {
     _addWheelListener( elem, "MozMousePixelScroll", callback, useCapture );
   }
 };
-},{}],49:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
 // http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
  
@@ -8479,7 +8449,7 @@ if (!window.cancelAnimationFrame)
         clearTimeout(id);
     };
 
-},{}],50:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 "use strict"
 
 function compileSearch(funcName, predicate, reversed, extraArgs, useNdarray, earlyOut) {
@@ -8541,7 +8511,7 @@ module.exports = {
   eq: compileBoundsSearch("-", true, "EQ", true)
 }
 
-},{}],51:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 /*!
   * domready (c) Dustin Diaz 2014 - License MIT
   */
@@ -8573,7 +8543,7 @@ module.exports = {
 
 });
 
-},{}],52:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 "use strict"
 
 function invert(hash) {
@@ -8587,11 +8557,11 @@ function invert(hash) {
 }
 
 module.exports = invert
-},{}],53:[function(require,module,exports){
-module.exports=require(10)
-},{"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/ndarray/node_modules/iota-array/iota.js":10}],54:[function(require,module,exports){
-module.exports=require(8)
-},{"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/ndarray-ops/node_modules/cwise-compiler/node_modules/uniq/uniq.js":8}],55:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
+module.exports=require(9)
+},{"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/ndarray/node_modules/iota-array/iota.js":9}],53:[function(require,module,exports){
+module.exports=require(7)
+},{"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/ndarray-ops/node_modules/cwise-compiler/node_modules/uniq/uniq.js":7}],54:[function(require,module,exports){
 var ua = typeof window !== 'undefined' ? window.navigator.userAgent : ''
   , isOSX = /OS X/.test(ua)
   , isOpera = /Opera/.test(ua)
@@ -8729,7 +8699,7 @@ for(i = 112; i < 136; ++i) {
   output[i] = 'F'+(i-111)
 }
 
-},{}],56:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 "use strict"
 
 var EventEmitter = require("events").EventEmitter
@@ -9468,9 +9438,9 @@ function createShell(options) {
 
 module.exports = createShell
 
-},{"./lib/hrtime-polyfill.js":47,"./lib/mousewheel-polyfill.js":48,"./lib/raf-polyfill.js":49,"binary-search-bounds":50,"domready":51,"events":100,"invert-hash":52,"iota-array":53,"uniq":54,"util":104,"vkey":55}],57:[function(require,module,exports){
-module.exports=require(19)
-},{"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/weak-map/weak-map.js":19}],58:[function(require,module,exports){
+},{"./lib/hrtime-polyfill.js":46,"./lib/mousewheel-polyfill.js":47,"./lib/raf-polyfill.js":48,"binary-search-bounds":49,"domready":50,"events":101,"invert-hash":51,"iota-array":52,"uniq":53,"util":105,"vkey":54}],56:[function(require,module,exports){
+module.exports=require(18)
+},{"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/weak-map/weak-map.js":18}],57:[function(require,module,exports){
 'use strict'
 
 var weakMap = typeof WeakMap === 'undefined' ? require('weak-map') : WeakMap
@@ -9512,7 +9482,7 @@ function initWebGLEW(gl) {
   return extensions
 }
 module.exports = initWebGLEW
-},{"weak-map":57}],59:[function(require,module,exports){
+},{"weak-map":56}],58:[function(require,module,exports){
 'use strict'
 
 var createUniformWrapper   = require('./lib/create-uniforms')
@@ -9747,7 +9717,7 @@ function createShader(
 }
 
 module.exports = createShader
-},{"./lib/create-attributes":60,"./lib/create-uniforms":61,"./lib/reflect":62,"./lib/runtime-reflect":63,"./lib/shader-cache":64}],60:[function(require,module,exports){
+},{"./lib/create-attributes":59,"./lib/create-uniforms":60,"./lib/reflect":61,"./lib/runtime-reflect":62,"./lib/shader-cache":63}],59:[function(require,module,exports){
 'use strict'
 
 module.exports = createAttributeWrapper
@@ -10010,7 +9980,7 @@ function createAttributeWrapper(
   return obj
 }
 
-},{}],61:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 'use strict'
 
 var coallesceUniforms = require('./reflect')
@@ -10202,7 +10172,7 @@ function createUniformWrapper(gl, wrapper, uniforms, locations) {
   }
 }
 
-},{"./reflect":62}],62:[function(require,module,exports){
+},{"./reflect":61}],61:[function(require,module,exports){
 'use strict'
 
 module.exports = makeReflectTypes
@@ -10260,7 +10230,7 @@ function makeReflectTypes(uniforms, useIndex) {
   }
   return obj
 }
-},{}],63:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 'use strict'
 
 exports.uniforms    = runtimeUniforms
@@ -10340,7 +10310,7 @@ function runtimeAttributes(gl, program) {
   return result
 }
 
-},{}],64:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 'use strict'
 
 exports.shader   = getShaderReference
@@ -10479,7 +10449,7 @@ function createProgram(gl, vref, fref, attribs, locations) {
   return getCache(gl).getProgram(vref, fref, attribs, locations)
 }
 
-},{"gl-format-compiler-error":65,"weakmap-shim":81}],65:[function(require,module,exports){
+},{"gl-format-compiler-error":64,"weakmap-shim":80}],64:[function(require,module,exports){
 
 var sprintf = require('sprintf-js').sprintf;
 var glConstants = require('gl-constants/lookup');
@@ -10534,7 +10504,7 @@ function formatCompilerError(errLog, src, type) {
 }
 
 
-},{"add-line-numbers":66,"gl-constants/lookup":70,"glsl-shader-name":71,"sprintf-js":78}],66:[function(require,module,exports){
+},{"add-line-numbers":65,"gl-constants/lookup":69,"glsl-shader-name":70,"sprintf-js":77}],65:[function(require,module,exports){
 var padLeft = require('pad-left')
 
 module.exports = addLineNumbers
@@ -10552,7 +10522,7 @@ function addLineNumbers (string, start, delim) {
   }).join('\n')
 }
 
-},{"pad-left":67}],67:[function(require,module,exports){
+},{"pad-left":66}],66:[function(require,module,exports){
 /*!
  * pad-left <https://github.com/jonschlinkert/pad-left>
  *
@@ -10568,7 +10538,7 @@ module.exports = function padLeft(str, num, ch) {
   ch = typeof ch !== 'undefined' ? (ch + '') : ' ';
   return repeat(ch, num) + str;
 };
-},{"repeat-string":68}],68:[function(require,module,exports){
+},{"repeat-string":67}],67:[function(require,module,exports){
 /*!
  * repeat-string <https://github.com/jonschlinkert/repeat-string>
  *
@@ -10636,7 +10606,7 @@ function repeat(str, num) {
 var res = '';
 var cache;
 
-},{}],69:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 module.exports = {
   0: 'NONE',
   1: 'ONE',
@@ -10936,14 +10906,14 @@ module.exports = {
   37444: 'BROWSER_DEFAULT_WEBGL'
 }
 
-},{}],70:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 var gl10 = require('./1.0/numbers')
 
 module.exports = function lookupConstant (number) {
   return gl10[number]
 }
 
-},{"./1.0/numbers":69}],71:[function(require,module,exports){
+},{"./1.0/numbers":68}],70:[function(require,module,exports){
 var tokenize = require('glsl-tokenizer')
 var atob     = require('atob-lite')
 
@@ -10968,12 +10938,12 @@ function getName(src) {
   }
 }
 
-},{"atob-lite":72,"glsl-tokenizer":77}],72:[function(require,module,exports){
+},{"atob-lite":71,"glsl-tokenizer":76}],71:[function(require,module,exports){
 module.exports = function _atob(str) {
   return atob(str)
 }
 
-},{}],73:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 module.exports = tokenize
 
 var literals = require('./lib/literals')
@@ -11320,7 +11290,7 @@ function tokenize() {
   }
 }
 
-},{"./lib/builtins":74,"./lib/literals":75,"./lib/operators":76}],74:[function(require,module,exports){
+},{"./lib/builtins":73,"./lib/literals":74,"./lib/operators":75}],73:[function(require,module,exports){
 module.exports = [
     'gl_Position'
   , 'gl_PointSize'
@@ -11468,7 +11438,7 @@ module.exports = [
   , 'dFdy'
 ]
 
-},{}],75:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 module.exports = [
   // current
     'precision'
@@ -11563,7 +11533,7 @@ module.exports = [
   , 'using'
 ]
 
-},{}],76:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 module.exports = [
     '<<='
   , '>>='
@@ -11612,7 +11582,7 @@ module.exports = [
   , '}'
 ]
 
-},{}],77:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 var tokenize = require('./index')
 
 module.exports = tokenizeString
@@ -11627,7 +11597,7 @@ function tokenizeString(str) {
   return tokens
 }
 
-},{"./index":73}],78:[function(require,module,exports){
+},{"./index":72}],77:[function(require,module,exports){
 (function(window) {
     var re = {
         not_string: /[^s]/,
@@ -11837,7 +11807,7 @@ function tokenizeString(str) {
     }
 })(typeof window === "undefined" ? this : window);
 
-},{}],79:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 var hiddenStore = require('./hidden-store.js');
 
 module.exports = createStore;
@@ -11858,7 +11828,7 @@ function createStore() {
     };
 }
 
-},{"./hidden-store.js":80}],80:[function(require,module,exports){
+},{"./hidden-store.js":79}],79:[function(require,module,exports){
 module.exports = hiddenStore;
 
 function hiddenStore(obj, key) {
@@ -11876,7 +11846,7 @@ function hiddenStore(obj, key) {
     return store;
 }
 
-},{}],81:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 // Original - @Gozola. 
 // https://gist.github.com/Gozala/1269991
 // This is a reimplemented version (with a few bug fixes).
@@ -11906,29 +11876,29 @@ function weakMap() {
     }
 }
 
-},{"./create-store.js":79}],82:[function(require,module,exports){
+},{"./create-store.js":78}],81:[function(require,module,exports){
+module.exports=require(3)
+},{"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/ndarray-ops/ndarray-ops.js":3,"cwise-compiler":82}],82:[function(require,module,exports){
 module.exports=require(4)
-},{"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/ndarray-ops/ndarray-ops.js":4,"cwise-compiler":83}],83:[function(require,module,exports){
+},{"./lib/thunk.js":84,"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/ndarray-ops/node_modules/cwise-compiler/compiler.js":4}],83:[function(require,module,exports){
 module.exports=require(5)
-},{"./lib/thunk.js":85,"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/ndarray-ops/node_modules/cwise-compiler/compiler.js":5}],84:[function(require,module,exports){
+},{"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/ndarray-ops/node_modules/cwise-compiler/lib/compile.js":5,"uniq":85}],84:[function(require,module,exports){
 module.exports=require(6)
-},{"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/ndarray-ops/node_modules/cwise-compiler/lib/compile.js":6,"uniq":86}],85:[function(require,module,exports){
+},{"./compile.js":83,"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/ndarray-ops/node_modules/cwise-compiler/lib/thunk.js":6}],85:[function(require,module,exports){
 module.exports=require(7)
-},{"./compile.js":84,"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/ndarray-ops/node_modules/cwise-compiler/lib/thunk.js":7}],86:[function(require,module,exports){
+},{"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/ndarray-ops/node_modules/cwise-compiler/node_modules/uniq/uniq.js":7}],86:[function(require,module,exports){
 module.exports=require(8)
-},{"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/ndarray-ops/node_modules/cwise-compiler/node_modules/uniq/uniq.js":8}],87:[function(require,module,exports){
+},{"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/ndarray/ndarray.js":8,"iota-array":87,"is-buffer":88}],87:[function(require,module,exports){
 module.exports=require(9)
-},{"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/ndarray/ndarray.js":9,"iota-array":88,"is-buffer":89}],88:[function(require,module,exports){
+},{"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/ndarray/node_modules/iota-array/iota.js":9}],88:[function(require,module,exports){
 module.exports=require(10)
-},{"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/ndarray/node_modules/iota-array/iota.js":10}],89:[function(require,module,exports){
+},{"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/ndarray/node_modules/is-buffer/index.js":10}],89:[function(require,module,exports){
 module.exports=require(11)
-},{"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/ndarray/node_modules/is-buffer/index.js":11}],90:[function(require,module,exports){
+},{"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/typedarray-pool/node_modules/bit-twiddle/twiddle.js":11}],90:[function(require,module,exports){
 module.exports=require(12)
-},{"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/typedarray-pool/node_modules/bit-twiddle/twiddle.js":12}],91:[function(require,module,exports){
+},{"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/typedarray-pool/node_modules/dup/dup.js":12}],91:[function(require,module,exports){
 module.exports=require(13)
-},{"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/typedarray-pool/node_modules/dup/dup.js":13}],92:[function(require,module,exports){
-module.exports=require(14)
-},{"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/typedarray-pool/pool.js":14,"bit-twiddle":90,"buffer":96,"dup":91}],93:[function(require,module,exports){
+},{"/Users/amdayton/Code/stackgl/gray-displace/node_modules/a-big-triangle/node_modules/gl-buffer/node_modules/typedarray-pool/pool.js":13,"bit-twiddle":89,"buffer":97,"dup":90}],92:[function(require,module,exports){
 'use strict'
 
 var ndarray = require('ndarray')
@@ -12487,7 +12457,7 @@ function createTexture2D(gl) {
   throw new Error('gl-texture2d: Invalid arguments for texture2d constructor')
 }
 
-},{"ndarray":87,"ndarray-ops":82,"typedarray-pool":92}],94:[function(require,module,exports){
+},{"ndarray":86,"ndarray-ops":81,"typedarray-pool":91}],93:[function(require,module,exports){
 'use strict'
 
 module.exports = mouseListen
@@ -12696,7 +12666,7 @@ function mouseListen(element, callback) {
   return result
 }
 
-},{"mouse-event":95}],95:[function(require,module,exports){
+},{"mouse-event":94}],94:[function(require,module,exports){
 'use strict'
 
 function mouseButtons(ev) {
@@ -12758,7 +12728,95 @@ function mouseRelativeY(ev) {
 }
 exports.y = mouseRelativeY
 
-},{}],96:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
+// polyfill for Object.assign
+require('es6-object-assign').polyfill();
+
+// getUserMedia polyfill
+var getUserMedia = require('getusermedia');
+
+function webcamGrabber(width, height, opts) {
+	// create video DOM dlement
+	var v = document.createElement('video');
+	var constraints = Object.assign(_defaultConstraints(width, height), opts);
+
+	// set video player width and height
+	v.width = width;
+	v.height = height;
+
+	// init getUserMedia
+	getUserMedia(constraints, function(err, stream) {
+		if(err) {
+			throw new Error(err);
+		}
+
+		// http://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm
+		v.src = window.URL.createObjectURL(stream);
+	});
+
+	return v;
+}
+
+// setup constraints for getUserMedia
+function _defaultConstraints(width, height) {
+	return {
+		video: {
+			width: { min: width, ideal: width }
+			, height: { min: height, ideal: height}
+		}
+	}
+}
+
+module.exports = webcamGrabber;
+},{"es6-object-assign":96,"getusermedia":42}],96:[function(require,module,exports){
+/**
+ * Code refactored from Mozilla Developer Network:
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+ */
+
+'use strict';
+
+function assign(target, firstSource) {
+  if (target === undefined || target === null) {
+    throw new TypeError('Cannot convert first argument to object');
+  }
+
+  var to = Object(target);
+  for (var i = 1; i < arguments.length; i++) {
+    var nextSource = arguments[i];
+    if (nextSource === undefined || nextSource === null) {
+      continue;
+    }
+
+    var keysArray = Object.keys(Object(nextSource));
+    for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
+      var nextKey = keysArray[nextIndex];
+      var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
+      if (desc !== undefined && desc.enumerable) {
+        to[nextKey] = nextSource[nextKey];
+      }
+    }
+  }
+  return to;
+}
+
+function polyfill() {
+  if (!Object.assign) {
+    Object.defineProperty(Object, 'assign', {
+      enumerable: false,
+      configurable: true,
+      writable: true,
+      value: assign
+    });
+  }
+}
+
+module.exports = {
+  assign: assign,
+  polyfill: polyfill
+};
+
+},{}],97:[function(require,module,exports){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -13811,7 +13869,7 @@ function decodeUtf8Char (str) {
   }
 }
 
-},{"base64-js":97,"ieee754":98,"is-array":99}],97:[function(require,module,exports){
+},{"base64-js":98,"ieee754":99,"is-array":100}],98:[function(require,module,exports){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
 ;(function (exports) {
@@ -13933,7 +13991,7 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 	exports.fromByteArray = uint8ToBase64
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
-},{}],98:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 exports.read = function(buffer, offset, isLE, mLen, nBytes) {
   var e, m,
       eLen = nBytes * 8 - mLen - 1,
@@ -14019,7 +14077,7 @@ exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128;
 };
 
-},{}],99:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 
 /**
  * isArray
@@ -14054,7 +14112,7 @@ module.exports = isArray || function (val) {
   return !! val && '[object Array]' == str.call(val);
 };
 
-},{}],100:[function(require,module,exports){
+},{}],101:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -14357,7 +14415,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],101:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -14382,7 +14440,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],102:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -14470,14 +14528,14 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],103:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],104:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -15067,4 +15125,4 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":103,"_process":102,"inherits":101}]},{},[1]);
+},{"./support/isBuffer":104,"_process":103,"inherits":102}]},{},[1]);
