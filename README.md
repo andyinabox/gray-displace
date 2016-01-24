@@ -25,11 +25,12 @@ Then run the server
 npm start
 ```
 
-Now open http://localhost:9966/ to see it in action!
+Now open http://127.0.0.1:9966/ to see it in action!
 
 Note: I'm using [budo](https://github.com/mattdesl/budo) to run the local server, which you may already have installed globally. You could easily run using other similar tools like [beefy](https://github.com/chrisdickinson/beefy) or [wzrd](https://github.com/maxogden/wzrd), for instance: `beefy index.js --live -- -t glslify`.
 
 ### Build
 
-(Not there yet)
-
+```bash
+npm run build
+```

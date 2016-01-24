@@ -5,8 +5,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "budo index.js --live -- -t glslify",
-    "build": "browserify index.js -o dist/bundle.js -t glslify"
+    "start": "budo index.js --live --open -H 127.0.0.1 -- -t glslify",
+    "build": "browserify index.js -o dist/bundle.js -t glslify",
+    "publish": "npm run build; gh-pages -d dist"
   },
   "author": {
     "name": "Andy Dayton",
@@ -14,19 +15,21 @@
     "url": "http://andydayton.com/"
   },
   "dependencies": {
+    "a-big-triangle": "~1.0.2",
+    "exdat": "~0.6.2",
+    "getusermedia": "~1.3.5",
+    "gl-fbo": "~2.0.5",
     "gl-now": "~1.4.0",
     "gl-shader": "~4.1.1",
-    "a-big-triangle": "~1.0.2",
-    "glsl-checker": "~1.0.1",
-    "gl-fbo": "~2.0.5",
     "gl-texture2d": "~2.0.10",
-    "getusermedia": "~1.3.5",
+    "glsl-checker": "~1.0.1",
     "mouse-change": "~1.2.1",
-    "exdat": "~0.6.2"
+    "webcam-grabber": "^0.1.1"
   },
   "devDependencies": {
-    "glslify": "~5.0.0",
-    "budo": "~7.1.0"
+    "budo": "~7.1.0",
+    "gh-pages": "^0.8.0",
+    "glslify": "~5.0.0"
   },
   "repository": {
     "type": "git",

@@ -4,11 +4,11 @@ var glFbo = require('gl-fbo');
 var glTexture2d = require('gl-texture2d');
 var fillScreen = require('a-big-triangle');
 var glslify = require('glslify');
-var videoGrabber = require('./lib/videoGrabber.js');
+var webcamGrabber = require('webcam-grabber');
 var mouseChange = require('mouse-change');
 var dat = require('exdat');
 
-var video = videoGrabber(640, 480);
+var video = webcamGrabber(640, 480);
 
 var mainShader
 	, grayShader
