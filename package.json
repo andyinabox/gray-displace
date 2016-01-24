@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "budo index.js --live --open -H 127.0.0.1 -- -t glslify",
-    "build": "browserify index.js -o dist/bundle.js -t glslify",
+    "build": "browserify index.js -o dist/bundle.js -t glslify; uglifyjs dist/bundle.js -m -o dist/bundle.js",
     "publish": "npm run build; gh-pages -d dist"
   },
   "author": {
@@ -29,7 +29,8 @@
   "devDependencies": {
     "budo": "~7.1.0",
     "gh-pages": "^0.8.0",
-    "glslify": "~5.0.0"
+    "glslify": "~5.0.0",
+    "uglifyjs": "^2.4.10"
   },
   "repository": {
     "type": "git",
