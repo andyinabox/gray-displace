@@ -42,7 +42,7 @@ shell.on('gl-init', function() {
 	});
 
 	var gui = new dat.GUI();
-	gui.add(params, 'displacement', 0.0, 1.0);
+	gui.add(params, 'displacement', 0.0, 10.0);
 	gui.add(params, 'videoMix', 0.0, 1.0);
 
 });
